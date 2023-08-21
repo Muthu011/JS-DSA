@@ -45,13 +45,15 @@ class LinkedList {
 
   //Append will happen only at last
   append(data) {
+    const newNode = new Node(data);
+
     if (this.FirstNode) {
       //Last Node holding reference for firstNode end elements so changing lastnode it changes firstNode
-      this.LastNode.nextNode = new Node(data);
-      this.LastNode = new Node(data);
+      this.LastNode.nextNode = newNode;
+      this.LastNode = newNode;
     } else {
-      this.FirstNode = new Node(data);
-      this.LastNode = new Node(data);
+      this.FirstNode = newNode;
+      this.LastNode = newNode;
     }
   }
 
@@ -132,27 +134,59 @@ class LinkedList {
   find() {}
 
   //copy array to node format
-  fromArray() {}
+  fromArray(arr) {
+    arr.forEach((item) => {
+      this.append(item);
+    });
+
+    return this;
+  }
 
   //nodes to array
-  toArray() {}
+  toArray() {
+    let nodes = [];
+    let curNode = this.FirstNode;
+    while (curNode) {
+      nodes.push(curNode);
+      curNode = curNode.nextNode;
+    }
+
+    return nodes;
+  }
 
   //nodes to string
-  toString() {}
+  toString() {
+    return JSON.stringify(this);
+  }
 
   //reverse linkedList
-  reverse() {}
+  reverse() {
+    let prevNode = this.FirstNode;
+    let curNode = this.FirstNode.nextNode;
+    let nextNode;
+    while (curNode) {
+      nextNode = curNode.nextNode;
+      curNode.nextNode = prevNode;
+      prevNode = curNode;
+      curNode = nextNode;
+    }
+
+    // this.LastNode = this.FirstNode;
+    // this.FirstNode=pre
+    return prevNode;
+  }
 }
 
 const tempList = new LinkedList();
-tempList.prepend("1");
-tempList.prepend("2");
-tempList.prepend("3");
-tempList.prepend("4");
-tempList.prepend("5");
-tempList.prepend("6");
-tempList.append("7");
+// tempList.prepend("1");
+// tempList.prepend("2");
+// tempList.prepend("3");
+// tempList.prepend("4");
+// tempList.prepend("5");
+// tempList.prepend("6");
+// tempList.append("7");
+// tempList.append("8");
+// tempList.append("9");
 
-// tempList.printValues();
-
-console.log(tempList.delete(1));
+console.log(tempList.fromArray(["ads", "afsd", "ase", "qd", "asdasd"]));
+console.log(tempList.toString());
